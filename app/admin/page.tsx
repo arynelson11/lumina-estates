@@ -104,37 +104,59 @@ export default function AdminDashboard() {
                         {properties.map(property => (
                             <div
                                 key={property.id}
-                                className="flex items-center gap-4 p-4 hover:bg-stone-50 transition-colors group"
+                                className="flex items-start md:items-center gap-3 p-3 md:p-4 hover:bg-stone-50 transition-colors group"
                             >
-                                <Link href={`/imoveis/${property.id}`} className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
+                                <Link href={`/imoveis/${property.id}`} className="w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
                                     <img
                                         src={property.image_urls?.[0] || 'https://via.placeholder.com/150'}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                 </Link>
                                 <div className="flex-1 min-w-0">
-                                    <Link href={`/imoveis/${property.id}`} className="block">
-                                        <h3 className="text-base md:text-lg font-medium text-stone-900 truncate mb-1">
-                                            {property.title}
-                                        </h3>
-                                    </Link>
-                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 text-sm text-stone-500">
-                                        <span className="flex items-center gap-1 text-xs md:text-sm">
-                                            <MapPin className="w-3 h-3 md:w-4 md:h-4" /> {property.neighborhood}
+                                    <div className="flex justify-between items-start">
+                                        <Link href={`/imoveis/${property.id}`} className="block pr-2">
+                                            <h3 className="text-sm md:text-lg font-medium text-stone-900 line-clamp-2 md:truncate mb-1 leading-tight">
+                                                {property.title}
+                                            </h3>
+                                        </Link>
+
+                                        {/* Mobile Actions (Top Right) */}
+                                        <div className="flex md:hidden items-center gap-1 -mt-1 -mr-1">
+                                            <Link
+                                                href={`/admin/edit/${property.id}`}
+                                                className="p-1.5 text-stone-400 hover:text-stone-900 rounded-lg"
+                                            >
+                                                <Edit className="w-4 h-4" />
+                                            </Link>
+                                            <button
+                                                onClick={(e) => handleDelete(property.id, e)}
+                                                className="p-1.5 text-stone-400 hover:text-red-500 rounded-lg"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 text-xs md:text-sm text-stone-500 mt-1">
+                                        <span className="flex items-center gap-1">
+                                            <MapPin className="w-3 h-3 md:w-4 md:h-4" />
+                                            <span className="truncate max-w-[120px] md:max-w-none">{property.neighborhood}</span>
                                         </span>
                                         <div className="flex items-center gap-2">
-                                            <span className="bg-stone-100 px-2 py-0.5 rounded text-stone-600 font-medium text-xs md:text-sm">
+                                            <span className="bg-stone-100 px-1.5 py-0.5 rounded text-stone-600 font-medium whitespace-nowrap">
                                                 {formatCurrency(property.price)}
                                             </span>
                                             {property.is_featured && (
-                                                <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-[4px] text-[10px] md:text-xs font-medium uppercase tracking-wider">
+                                                <span className="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-[4px] text-[10px] mobile-xs font-medium uppercase tracking-wider">
                                                     Destaque
                                                 </span>
                                             )}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 pl-2">
+
+                                {/* Desktop Actions (Right Side) */}
+                                <div className="hidden md:flex items-center gap-2 pl-2">
                                     <Link
                                         href={`/admin/edit/${property.id}`}
                                         className="p-2 text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-all"
