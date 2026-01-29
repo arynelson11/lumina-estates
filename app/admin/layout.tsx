@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { LayoutDashboard, PlusCircle, Settings, LogOut, Home, Menu, X } from 'lucide-react'
+import { LayoutDashboard, PlusCircle, Settings, LogOut, Home, Menu, X, PanelLeft } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 
@@ -14,6 +14,7 @@ export default function AdminLayout({
     const pathname = usePathname()
     const router = useRouter()
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true)
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
@@ -51,8 +52,9 @@ export default function AdminLayout({
 
             {/* Sidebar */}
             <aside className={`
-                fixed inset-y-0 left-0 z-50 w-64 bg-stone-900 text-white flex flex-col transition-transform duration-300 ease-in-out md:translate-x-0
+                fixed inset-y-0 left-0 z-50 w-64 bg-stone-900 text-white flex flex-col transition-transform duration-300 ease-in-out
                 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+                ${isDesktopSidebarOpen ? 'md:translate-x-0' : 'md:-translate-x-full'}
             `}>
                 <div className="p-8 border-b border-stone-800 flex items-center justify-between">
                     <Link href="/" className="font-display text-2xl tracking-tight hover:opacity-80 transition-opacity">
@@ -107,8 +109,31 @@ export default function AdminLayout({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 md:ml-64 p-4 md:p-8 pt-20 md:pt-8 transition-all">
-                <div className="max-w-5xl mx-auto">
+            <main className={`
+                flex-1 p-4 md:p-8 pt-20 md:pt-8 transition-all duration-300 ease-in-out
+                ${isDesktopSidebarOpen ? 'md:ml-64' : 'md:ml-0'}
+            `}>
+                <div className="max-w-5xl mx-auto relative">
+                    {/* Desktop Toggle Button */}
+                    <button
+                        onClick={() => setIsDesktopSidebarOpen(!isDesktopSidebarOpen)}
+                        className="hidden md:flex absolute -left-12 top-0 p-2 text-stone-400 hover:text-stone-900 bg-transparent hover:bg-stone-100 rounded-lg transition-all"
+                        title={isDesktopSidebarOpen ? "Recolher Menu" : "Expandir Menu"}
+                    >
+                        <PanelLeft className="w-6 h-6" />
+                    </button>
+
+                    {/* Floating Toggle Button (Visible when sidebar is closed) */}
+                    {!isDesktopSidebarOpen && (
+                        <button
+                            onClick={() => setIsDesktopSidebarOpen(true)}
+                            className="hidden md:flex fixed top-8 left-8 p-3 bg-stone-900 text-white rounded-full shadow-lg hover:bg-stone-800 transition-all z-40"
+                            title="Expandir Menu"
+                        >
+                            <PanelLeft className="w-6 h-6" />
+                        </button>
+                    )}
+
                     {children}
                 </div>
             </main>
