@@ -7,6 +7,8 @@ import Link from 'next/link'
 
 // Revalidate data every 60 seconds (ISR)
 export const revalidate = 60
+// Force dynamic to prevent static generation issues on Vercel
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   // Fetch featured properties
