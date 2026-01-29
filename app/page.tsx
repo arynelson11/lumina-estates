@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { PropertyCard, Property } from '@/components/PropertyCard'
 import { SearchFilters } from '@/components/SearchFilters'
@@ -44,9 +45,10 @@ export default async function Home() {
           </p>
         </div>
 
-        {/* Search Bar */}
         <div className="relative z-30 w-full px-4 max-w-4xl">
-          <SearchFilters centered />
+          <Suspense fallback={<div className="h-20 bg-white/10 rounded-xl animate-pulse" />}>
+            <SearchFilters centered />
+          </Suspense>
         </div>
 
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce text-white/50">

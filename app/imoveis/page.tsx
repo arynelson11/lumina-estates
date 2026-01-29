@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { PropertyCard, Property } from '@/components/PropertyCard'
 import { SearchFilters } from '@/components/SearchFilters'
@@ -63,7 +64,9 @@ export default async function PropertiesPage({ searchParams }: Props) {
             <div className="max-w-7xl mx-auto px-4 mb-12">
                 <div className="mb-10">
                     <h1 className="text-3xl font-display font-medium text-stone-900 mb-6 text-center">Encontre seu Refúgio</h1>
-                    <SearchFilters />
+                    <Suspense fallback={<div className="h-20 bg-stone-100 rounded-xl animate-pulse" />}>
+                        <SearchFilters />
+                    </Suspense>
                 </div>
 
                 {error && (
