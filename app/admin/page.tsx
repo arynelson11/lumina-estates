@@ -104,9 +104,9 @@ export default function AdminDashboard() {
                         {properties.map(property => (
                             <div
                                 key={property.id}
-                                className="flex items-center gap-6 p-6 hover:bg-stone-50 transition-colors group"
+                                className="flex items-center gap-4 p-4 hover:bg-stone-50 transition-colors group"
                             >
-                                <Link href={`/imoveis/${property.id}`} className="w-24 h-24 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
+                                <Link href={`/imoveis/${property.id}`} className="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden bg-stone-100 flex-shrink-0">
                                     <img
                                         src={property.image_urls?.[0] || 'https://via.placeholder.com/150'}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -114,25 +114,27 @@ export default function AdminDashboard() {
                                 </Link>
                                 <div className="flex-1 min-w-0">
                                     <Link href={`/imoveis/${property.id}`} className="block">
-                                        <h3 className="text-lg font-medium text-stone-900 truncate mb-1">
+                                        <h3 className="text-base md:text-lg font-medium text-stone-900 truncate mb-1">
                                             {property.title}
                                         </h3>
                                     </Link>
-                                    <div className="flex items-center gap-4 text-sm text-stone-500">
-                                        <span className="flex items-center gap-1">
-                                            <MapPin className="w-4 h-4" /> {property.neighborhood}
+                                    <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 text-sm text-stone-500">
+                                        <span className="flex items-center gap-1 text-xs md:text-sm">
+                                            <MapPin className="w-3 h-3 md:w-4 md:h-4" /> {property.neighborhood}
                                         </span>
-                                        <span className="bg-stone-100 px-2 py-0.5 rounded text-stone-600 font-medium">
-                                            {formatCurrency(property.price)}
-                                        </span>
-                                        {property.is_featured && (
-                                            <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs font-medium uppercase tracking-wider">
-                                                Destaque
+                                        <div className="flex items-center gap-2">
+                                            <span className="bg-stone-100 px-2 py-0.5 rounded text-stone-600 font-medium text-xs md:text-sm">
+                                                {formatCurrency(property.price)}
                                             </span>
-                                        )}
+                                            {property.is_featured && (
+                                                <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-[4px] text-[10px] md:text-xs font-medium uppercase tracking-wider">
+                                                    Destaque
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2 pl-2">
                                     <Link
                                         href={`/admin/edit/${property.id}`}
                                         className="p-2 text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-all"
